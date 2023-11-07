@@ -1,0 +1,14 @@
+/* header css file */
+
+.dropdown::before {
+  content: "";
+  height: 20px;
+  width: 20px;
+  background-color: white;
+  transform: rotate(45deg);
+  position: absolute;
+  left: 44%;
+  top: -0.5rem;
+  border-radius: 0.01rem;
+  z-index: -1;
+}
