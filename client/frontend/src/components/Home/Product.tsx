@@ -9,12 +9,12 @@ import { Product } from '@/types';
 const ProductComponent = ({ product, index }: { product: Product, index: number }) => {
 
     return (
-        <div className=' border p-2 m-3'>
+        <div className=' border p-2 m-3 border-neutral-200'>
 
             <span
                 onClick={() => { }}
                 className={`${' text-gray-300'}  cursor-pointer mb-3 w-full flex justify-end`}>
-                <FavoriteIcon />
+                <FavoriteIcon className="text-neutral-300"/>
             </span>
             <Link href={`/product/${product.id}`}>
                 <div key={index} className='p-2 gap-2 capitalize flex flex-col justify-center items-center'>
@@ -26,12 +26,12 @@ const ProductComponent = ({ product, index }: { product: Product, index: number 
                         <h1 className=' font-medium my-2 text-base'>{product.name.slice(0, 40) + "...."}</h1>
                         <div className=' flex gap-4 items-center'>
                             <div
-                                className=' font-bold flex gap-1 w-fit items-center text-sm bg-green-700 text-white py-[.1rem] px-2 rounded-sm'>
-                                <h1>{
+                                className=' font-medium flex gap-2 w-fit items-center text-sm bg-green-700 text-white py-[.1rem] px-2 rounded-sm'>
+                                <h2>{
                                     // random rating
                                     Math.floor(Math.random() * (5 - 1 + 1)) + 1
-                                }</h1>
-                                <StarIcon />
+                                }</h2>
+                                <StarIcon className="text-base"/>
                             </div>
                             <h1 className=' text-gray-500 text-sm font-bold'>({
                                 // random number of reviews

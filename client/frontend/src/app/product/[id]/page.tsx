@@ -12,6 +12,7 @@ import StarIcon from '@mui/icons-material/Star';
 import SellIcon from '@mui/icons-material/Sell';
 import { toast } from "react-toastify";
 import ProductsCarousel from "@/components/Home/ProductsCarousel";
+import LifeCycleStepper from "@/components/LifecycleStepper";
 
 const getProductDetails = async (contract: any, id: string) => {
     if (contract) {
@@ -94,14 +95,14 @@ function ProductDetails() {
                             {/* <!--Heading> */}
                             {/* <!--rating> */}
                             <div className=' flex gap-4 items-center'>
-                                <div className=' font-bold flex gap-1 w-fit items-center text-sm bg-green-700 text-white py-[.1rem] px-2 rounded-sm'>
-                                    <h1>{
+                                <div className=' font-bold flex gap-2 w-fit items-center text-sm bg-green-700 text-white py-[.1rem] px-2 rounded-sm'>
+                                    <h2>{
                                         // random rating
                                         (Math.random() * 5).toFixed(1)
-                                    }</h1>
-                                    <StarIcon />
+                                    }</h2>
+                                    <StarIcon className="text-base" />
                                 </div>
-                                <h1 className=' text-gray-500 text-sm font-bold'>
+                                <h1 className=' text-gray-500 text-sm font-medium'>
                                     {
                                         // random number of ratings
                                         (Math.random() * 10000).toFixed(0)
@@ -114,9 +115,9 @@ function ProductDetails() {
                             {/* <!--Heading> */}
 
                             <h1 className=' text-sm font-bold text-green-600 '>Special Price</h1>
-                            <h1 className=' font-bold text-3xl'>{product.price.toString()}ETH
+                            <h1 className=' font-bold text-2xl tracking-wide'>{product.price.toString()} ETH
 
-                                <del className=' mx-4 text-gray-500 font-bold text-sm' > {parseInt(product.price.toString()) * 2}ETH</del>
+                                <del className=' mx-4 text-gray-500 font-bold text-sm' > {parseInt(product.price.toString()) * 2} ETH</del>
                                 <span className=' text-green-600 text-base'>
                                     {50}%
                                 </span>
@@ -124,10 +125,12 @@ function ProductDetails() {
 
                         </div>
                         {/* <!-- Heading container> */}
-
+                        <div className="my-10">
+                            <LifeCycleStepper product={product} />
+                        </div>
                         {/* <!-- offer continer> */}
-                        <div className=' border my-4'>
-                            <h1 className=' border-b p-3 text-lg font-bold capitalize'>Available offers</h1>
+                        <div className=' border my-4 border-neutral-200'>
+                            <h1 className=' border-b border-neutral-200 p-3 text-lg font-bold capitalize tracking-wide text-neutral-700'>Available offers</h1>
                             <ul className='flex flex-col p-4 gap-3'>
                                 <li className=' flex gap-3 items-center'>
                                     <SellIcon className=' text-green-600' />
@@ -149,6 +152,7 @@ function ProductDetails() {
                             </ul>
                         </div>
                         {/* <!-- offer continer> */}
+
 
                     </div>
                 </div>

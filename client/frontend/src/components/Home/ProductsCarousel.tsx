@@ -70,11 +70,11 @@ const ProductsCarousel = ({ title }: { title: string }) => {
     return (
         <div className='flex mt-4 bg-white border-3 shadow-sm'>
             <div className=' flex-1 py-2 overflow-hidden'>
-                <div className=' border-b p-4'>
-                    <h1 className=' text-xl font-bold capitalize'>{title}</h1>
+                <div className=' border-b p-4 border-neutral-200'>
+                    <h1 className=' text-xl font-semibold capitalize tracking-wide'>{title}</h1>
 
                 </div>
-                <div className='p-3 flex justify-center'>
+                <div className='p-3 flex justify-center pt-10'>
                     {!loading ?
                         <div className=' w-full '>
 
