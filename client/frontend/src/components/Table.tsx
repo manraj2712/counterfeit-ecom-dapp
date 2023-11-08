@@ -4,6 +4,8 @@ import { Product, Role } from "@/types";
 import { useContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import AssignForm from "./Forms/AssignForm";
+import { toast } from "react-toastify";
+import { ethers } from "ethers";
 
 const findProductsForManufacturer = async (contract: any) => {
     if (contract) {
@@ -35,10 +37,45 @@ const findProductsForDistributor = async (contract: any) => {
     return [] as Array<Product>;
 }
 
+const purchaseDistributor = async (contract: any, id: string, amount: { value: bigint }) => {
+    if (contract) {
+        try {
+            const res = await contract.purchaseDistributor(id, amount);
+            await res.wait();
+            toast.success("Transaction Successful");
+        }
+        catch (err) {
+            toast.error("Transaction Failed");
+        }
+    }
+}
+const purchaseRetailer = async (contract: any, id: string, amount: { value: bigint }) => {
+    if (contract) {
+        try {
+            const res = await contract.purchaseRetailer(id, amount);
+            await res.wait();
+            toast.success("Transaction Successful");
+        }
+        catch (err) {
+            toast.error("Transaction Failed");
+        }
+    }
+}
+
+const purchaseCustomer = async (contract: any, id: string, amount: { value: bigint }) => {
+    if (contract) {
+        try {
+            await contract.purchaseCustomer(id, amount);
+            toast.success("Transaction Successful");
+        }
+        catch (err) {
+            toast.error("Transaction Failed");
+        }
+    }
+}
 function Table({ role }: { role: Role }) {
     const [isLoading, setIsLoading] = useState(false);
     const [products, setProducts] = useState<Array<Product>>([]);
-    const [actionFormOpen, setActionFormOpen] = useState(false);
     const { contract } = useContext(StateContext);
     const router = useRouter();
     useEffect(() => {
@@ -113,14 +150,9 @@ function Table({ role }: { role: Role }) {
                                     <td className="py-3 px-6 whitespace-nowrap">{product.retailerName || "-"}</td>
                                     <td className="py-3 px-6 whitespace-nowrap">{`${product.price} ETH`}</td>
                                     <td>
-                                        {product.distributorName ? "-" : <div className="mt-3 md:mt-0 cursor-pointer">
-                                            <p onClick={() => {
-                                                setActionFormOpen(true);
-                                            }} className="inline-block px-2 py-1 text-white duration-150 font-medium bg-blue-700 hover:bg-blue-600 active:bg:bg-blue-900 md:text-sm rounded-lg">
-                                                Assign Distributor
-                                            </p>
-                                            <AssignForm product={product} open={actionFormOpen} setOpen={setActionFormOpen} />
-                                        </div>}
+                                        {
+                                            <GetAction role={role} product={product} contract={contract} />
+                                        }
                                     </td>
                                 </tr>
                             )
@@ -133,3 +165,50 @@ function Table({ role }: { role: Role }) {
 }
 
 export default Table
+
+
+function GetAction({ role, product, contract }: { role: Role, product: Product, contract: any }) {
+
+    console.log(product.retailerName);
+
+    const [actionFormOpen, setActionFormOpen] = useState(false);
+    if (role === Role.DISTRIBUTOR && product.status === "Assigned to Distributor")
+        return (<div className="mt-3 md:mt-0 cursor-pointer">
+            <p onClick={() => {
+                purchaseDistributor(contract, product.id, { value: ethers.parseEther((parseInt(product.price.toString()) * 0.01).toString()) })
+            }} className="inline-block px-2 py-1 text-white duration-150 font-medium bg-blue-700 hover:bg-blue-600 active:bg:bg-blue-900 md:text-sm rounded-lg">
+                Make Payment
+            </p>
+        </div>)
+    else if (role === Role.DISTRIBUTOR && product.status === "Sold to Distributor") {
+        return (
+            <div className="mt-3 md:mt-0 cursor-pointer">
+                <p onClick={() => {
+                    setActionFormOpen(true);
+                }} className="inline-block px-2 py-1 text-white duration-150 font-medium bg-blue-700 hover:bg-blue-600 active:bg:bg-blue-900 md:text-sm rounded-lg">
+                    Assign Retailer
+                </p>
+                <AssignForm product={product} open={actionFormOpen} setOpen={setActionFormOpen} role={role} />
+            </div>
+        )
+    }
+    else if (role === Role.MANUFACTURER && product.status === "Manufactured")
+        return (<div className="mt-3 md:mt-0 cursor-pointer">
+            <p onClick={() => {
+                setActionFormOpen(true);
+            }} className="inline-block px-2 py-1 text-white duration-150 font-medium bg-blue-700 hover:bg-blue-600 active:bg:bg-blue-900 md:text-sm rounded-lg">
+                Assign Distributor
+            </p>
+            <AssignForm product={product} open={actionFormOpen} setOpen={setActionFormOpen} role={role} />
+        </div>)
+    else if (role === Role.RETAILER && product.status === "Assigned to Retailer")
+        return (<div className="mt-3 md:mt-0 cursor-pointer">
+            <p onClick={() => {
+                purchaseRetailer(contract, product.id, { value: ethers.parseEther((parseInt(product.price.toString()) * 0.01).toString()) })
+            }} className="inline-block px-2 py-1 text-white duration-150 font-medium bg-blue-700 hover:bg-blue-600 active:bg:bg-blue-900 md:text-sm rounded-lg">
+                Make Payment
+            </p>
+        </div>)
+    else
+        return <>-</>
+}

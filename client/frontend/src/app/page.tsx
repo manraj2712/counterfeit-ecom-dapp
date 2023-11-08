@@ -25,6 +25,7 @@ const Home = () => {
             <SliderComponent category={"women's clothing"} />
              */}
             <ProductsCarousel title="Top Selling Products" />
+            <ProductsCarousel title="Picks for you" />
           </section>
         </Suspense>
 

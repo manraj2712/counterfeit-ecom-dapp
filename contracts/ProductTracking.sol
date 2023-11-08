@@ -78,11 +78,11 @@ contract ProductTracking {
         products[id].distributor = distributorAdd;
         products[id].distributorName = distributorName;
 
-        updateProductStatus(id, "Assigned to Distributer");
+        updateProductStatus(id, "Assigned to Distributor");
     }
     function setRetailer(string memory retailerName, string memory id, address retailerAdd) public onlyDistributor(id){
         products[id].retailer = retailerAdd;
-        products[id].distributorName = retailerName;
+        products[id].retailerName = retailerName;
 
         updateProductStatus(id, "Assigned to Retailer");
     }
@@ -101,7 +101,7 @@ contract ProductTracking {
 
     function purchaseDistributor(string memory id) public payable onlyDistributor(id) {
         Product storage product = products[id];
-        require(keccak256(abi.encodePacked(product.status)) == keccak256(abi.encodePacked("Assigned to Distributer")), "Product must be in 'Manufactured' to send to distributor");
+        require(keccak256(abi.encodePacked(product.status)) == keccak256(abi.encodePacked("Assigned to Distributor")), "Product must be in 'Manufactured' to send to distributor");
 
         uint price = product.price;
         require(msg.value > price, "Insufficient payment");
@@ -115,7 +115,7 @@ contract ProductTracking {
 
     function purchaseRetailer(string memory id) public payable onlyRetailer(id) {
         Product storage product = products[id];
-        require(keccak256(abi.encodePacked(product.status)) == keccak256(abi.encodePacked("Assigned to")), "Product must be in 'Sold to Distributor' to send to retailer");
+        require(keccak256(abi.encodePacked(product.status)) == keccak256(abi.encodePacked("Assigned to Retailer")), "Product must be in 'Assigned to Retailer' to send to retailer");
 
         uint price = product.price ;
         require(msg.value > price, "Insufficient payment");
@@ -247,7 +247,7 @@ contract ProductTracking {
 
             // Check if the product is assigned to a distributor or retailer and the caller is that distributor or retailer
             bool isAssignedToActor = (isDistributor && product.distributor == msg.sender) || (!isDistributor && product.retailer == msg.sender);
-            if (isAssignedToActor && (keccak256(abi.encodePacked(product.status)) == keccak256(abi.encodePacked("Assigned to Distributer")) || keccak256(abi.encodePacked(product.status)) == keccak256(abi.encodePacked("Assigned to Retailer")))) {
+            if (isAssignedToActor && (keccak256(abi.encodePacked(product.status)) == keccak256(abi.encodePacked("Assigned to Distributor")) || keccak256(abi.encodePacked(product.status)) == keccak256(abi.encodePacked("Assigned to Retailer")))) {
                 assignedProducts[productCount] = product;
                 productCount++;
             }

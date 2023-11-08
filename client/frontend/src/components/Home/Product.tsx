@@ -33,14 +33,14 @@ const ProductComponent = ({ product, index }: { product: Product, index: number 
                                 }</h2>
                                 <StarIcon className="text-base"/>
                             </div>
-                            <h1 className=' text-gray-500 text-sm font-bold'>({
+                            <h1 className=' text-gray-500 text-sm font-medium text-neutral-600'>({
                                 // random number of reviews
                                 Math.floor(Math.random() * (10000 - 1 + 1)) + 1
                             })</h1>
                         </div>
 
                         <h1 className=' font-bold text-base'>{product.price.toString()} ETH
-                            <del className=' mx-2 text-gray-500 font-bold text-sm' >{(parseInt(product.price.toString()) * 2)} ETH</del>
+                            <del className=' mx-2 text-gray-500 font-semibold text-neutral-600 text-sm' >{(parseInt(product.price.toString()) * 2)} ETH</del>
                             <span className=' text-green-600 text-base'>
                                 {"50"}%
                             </span>

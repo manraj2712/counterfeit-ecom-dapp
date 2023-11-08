@@ -13,6 +13,7 @@ import SellIcon from '@mui/icons-material/Sell';
 import { toast } from "react-toastify";
 import ProductsCarousel from "@/components/Home/ProductsCarousel";
 import LifeCycleStepper from "@/components/LifecycleStepper";
+import QRCode from "react-qr-code";
 
 const getProductDetails = async (contract: any, id: string) => {
     if (contract) {
@@ -102,7 +103,7 @@ function ProductDetails() {
                                     }</h2>
                                     <StarIcon className="text-base" />
                                 </div>
-                                <h1 className=' text-gray-500 text-sm font-medium'>
+                                <h1 className=' text-neutral-600 text-sm font-medium'>
                                     {
                                         // random number of ratings
                                         (Math.random() * 10000).toFixed(0)
@@ -117,7 +118,7 @@ function ProductDetails() {
                             <h1 className=' text-sm font-bold text-green-600 '>Special Price</h1>
                             <h1 className=' font-bold text-2xl tracking-wide'>{product.price.toString()} ETH
 
-                                <del className=' mx-4 text-gray-500 font-bold text-sm' > {parseInt(product.price.toString()) * 2} ETH</del>
+                                <del className=' mx-4 text-neutral-600 font-semibold text-sm' > {parseInt(product.price.toString()) * 2} ETH</del>
                                 <span className=' text-green-600 text-base'>
                                     {50}%
                                 </span>
@@ -125,7 +126,8 @@ function ProductDetails() {
 
                         </div>
                         {/* <!-- Heading container> */}
-                        <div className="my-10">
+                        <div className="mb-10 mt-7 flex align-middle">
+                            <QRCode value={`http://localhost:3000/${product.id}`} height={"10px"} width={"10px"} />
                             <LifeCycleStepper product={product} />
                         </div>
                         {/* <!-- offer continer> */}

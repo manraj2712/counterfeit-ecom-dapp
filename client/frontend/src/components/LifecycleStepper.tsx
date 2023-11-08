@@ -79,9 +79,9 @@ function ColorlibStepIcon(props: StepIconProps) {
 export default function CustomizedSteppers({ product }: { product: Product }) {
     const steps = [product.manufacturerName, product.distributorName || "", product.retailerName || ""];
     return (
-        <Stack sx={{ width: '100%' }} spacing={2}>
+        <Stack sx={{ width: '100%' }} spacing={2} className='justify-center'>
             <Stepper alternativeLabel activeStep={
-                product.distributorName ? 1 : product.retailerName ? 2 : 0
+                product.retailerName ? 2 : product.distributorName ? 1 : 0
             } connector={<ColorlibConnector />}>
                 {steps.map((label) => (
                     <Step key={label}>
