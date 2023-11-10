@@ -35,7 +35,7 @@ const Header = () => {
   const { connectWallet, contract, provider, signer, account } = useContext(StateContext);
 
   return (
-    <div className=' sticky z-50 py-3 top-0 p-1.5 capitalize w-full justify-around gap-10 flex items-center text-white bg-blue-500 '>
+    <div className=' sticky z-50 px-7 py-3 top-0 p-1.5 capitalize w-full justify-between gap-10 flex items-center text-white bg-blue-500 '>
 
       {/* bg-[#923ca1] */}
 
@@ -68,22 +68,13 @@ const Header = () => {
         }
         {toggleprimary && <Primarydropdown toggleprimary={toggleprimary} />}
 
-        <a href="/">Beacome a Seller</a>
-
-
-        <span onClick={secondarytoggle} className=' relative  cursor-pointer'>More
+        {/* <span onClick={secondarytoggle} className=' relative  cursor-pointer'>More
           <span className=' px-1'>
             {togglesecondary ? <ExpandLessIcon /> : <ExpandMoreIcon />}
           </span>
-        </span>
+        </span> */}
 
-        {togglesecondary && <Secondarydropdown />}
-
-
-        <Link href={'/cart'} className='cursor-pointer'>
-          <span className=' px-1'> <Badge badgeContent={1} color='secondary'  ><ShoppingCartIcon fontSize='small' /></Badge> </span>
-          cart
-        </Link>
+        {/* {togglesecondary && <Secondarydropdown />} */}
 
 
       </div>

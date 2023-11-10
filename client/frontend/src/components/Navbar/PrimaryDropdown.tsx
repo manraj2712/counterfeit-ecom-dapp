@@ -12,30 +12,30 @@ const Primarydropdown = ({ toggleprimary }: { toggleprimary: boolean }) => {
         {
             title: "My Profile",
             icon: <AccountCircleIcon />,
-            redirect: "/login"
+            redirect: "/services"
         },
-        {
-            title: "Flipkart plus zone",
-            icon: <AddCircleOutlineIcon />,
-            redirect: ""
-        }, {
-            title: "orders",
-            icon: <AddCardIcon />,
-            redirect: "account/orders"
-        }, {
-            title: "whislist",
-            icon: <FavoriteIcon />,
-            redirect: "/wishlist"
-        }, {
-            title: "rewards",
-            icon: <EmojiEventsIcon />,
-            redirect: ""
-        },
-        {
-            title: "Gift cards",
-            icon: <RedeemIcon />,
-            redirect: ""
-        },
+        // {
+        //     title: "Flipkart plus zone",
+        //     icon: <AddCircleOutlineIcon />,
+        //     redirect: ""
+        // }, {
+        //     title: "orders",
+        //     icon: <AddCardIcon />,
+        //     redirect: "account/orders"
+        // }, {
+        //     title: "whislist",
+        //     icon: <FavoriteIcon />,
+        //     redirect: "/wishlist"
+        // }, {
+        //     title: "rewards",
+        //     icon: <EmojiEventsIcon />,
+        //     redirect: ""
+        // },
+        // {
+        //     title: "Gift cards",
+        //     icon: <RedeemIcon />,
+        //     redirect: ""
+        // },
     ]
 
 

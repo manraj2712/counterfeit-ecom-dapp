@@ -12,29 +12,61 @@ const findProductsForManufacturer = async (contract: any) => {
         const res = await contract.findProductsForManufacturer();
         return res;
     }
-    return [] as Array<Product>;
+    else {
+        toast.error("Please connect to metamask");
+        return [] as Array<Product>;
+    }
 }
 
 const findProductsForCustomer = async (contract: any) => {
     if (contract) {
-        const res = await contract.findProductsForCustomer();
-        return res;
+        try {
+
+            const res = await contract.findProductsForCustomer();
+            return res;
+        }
+        catch (err: any) {
+            toast.error(err.message.slice(0, 100));
+            return [] as Array<Product>;
+        }
     }
-    return [] as Array<Product>;
+    else {
+        toast.error("Please connect to metamask");
+        return [] as Array<Product>;
+    }
 }
 const findProductsForRetailer = async (contract: any) => {
     if (contract) {
-        const res = await contract.findProductsForRetailer();
-        return res;
+
+        try {
+            const res = await contract.findProductsForRetailer();
+            return res;
+        }
+        catch (err: any) {
+            toast.error(err.message.slice(0, 100));
+            return [] as Array<Product>;
+        }
     }
-    return [] as Array<Product>;
+    else {
+        toast.error("Please connect to metamask");
+        return [] as Array<Product>;
+    }
 }
 const findProductsForDistributor = async (contract: any) => {
     if (contract) {
-        const res = await contract.findProductsForDistributor();
-        return res;
+        try {
+            const res = await contract.findProductsForDistributor();
+            return res;
+        }
+        catch (err: any) {
+            toast.error(err.message.slice(0, 100));
+            return [] as Array<Product>;
+        }
     }
-    return [] as Array<Product>;
+    else {
+        toast.error("Please connect to metamask");
+        return [] as Array<Product>;
+    }
 }
 
 const purchaseDistributor = async (contract: any, id: string, amount: { value: bigint }) => {
@@ -44,9 +76,12 @@ const purchaseDistributor = async (contract: any, id: string, amount: { value: b
             await res.wait();
             toast.success("Transaction Successful");
         }
-        catch (err) {
-            toast.error("Transaction Failed");
+        catch (err: any) {
+            toast.error(err.message.slice(0, 100));
         }
+    }
+    else {
+        toast.error("Please connect to metamask");
     }
 }
 const purchaseRetailer = async (contract: any, id: string, amount: { value: bigint }) => {
@@ -56,20 +91,8 @@ const purchaseRetailer = async (contract: any, id: string, amount: { value: bigi
             await res.wait();
             toast.success("Transaction Successful");
         }
-        catch (err) {
-            toast.error("Transaction Failed");
-        }
-    }
-}
-
-const purchaseCustomer = async (contract: any, id: string, amount: { value: bigint }) => {
-    if (contract) {
-        try {
-            await contract.purchaseCustomer(id, amount);
-            toast.success("Transaction Successful");
-        }
-        catch (err) {
-            toast.error("Transaction Failed");
+        catch (err: any) {
+            toast.error(err.message.slice(0, 100));
         }
     }
 }
@@ -134,8 +157,9 @@ function Table({ role }: { role: Role }) {
                         <tr>
                             <th className="py-3 px-6">Name</th>
                             <th className="py-3 px-6">Status</th>
-                            <th className="py-3 px-6">Distributor Name</th>
-                            <th className="py-3 px-6">Retailer Name</th>
+                            <th className="py-3 px-6">Manufacturer</th>
+                            <th className="py-3 px-6">Distributor</th>
+                            <th className="py-3 px-6">Retailer</th>
                             <th className="py-3 px-6">Price</th>
                             <th className="py-3 px-6">Action</th>
                         </tr>
@@ -146,6 +170,7 @@ function Table({ role }: { role: Role }) {
                                 <tr key={product.id}>
                                     <td className="py-3 px-6 whitespace-nowrap">{product.name}</td>
                                     <td className="py-3 px-6 whitespace-nowrap">{product.status}</td>
+                                    <td className="py-3 px-6 whitespace-nowrap">{product.manufacturerName}</td>
                                     <td className="py-3 px-6 whitespace-nowrap">{product.distributorName || "-"}</td>
                                     <td className="py-3 px-6 whitespace-nowrap">{product.retailerName || "-"}</td>
                                     <td className="py-3 px-6 whitespace-nowrap">{`${product.price} ETH`}</td>

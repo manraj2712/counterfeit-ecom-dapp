@@ -14,6 +14,22 @@ import { toast } from "react-toastify";
 import ProductsCarousel from "@/components/Home/ProductsCarousel";
 import LifeCycleStepper from "@/components/LifecycleStepper";
 import QRCode from "react-qr-code";
+import { ethers } from "ethers";
+
+const purchaseCustomer = async (contract: any, id: string, amount: { value: bigint }) => {
+    if (contract) {
+        try {
+            await contract.purchaseCustomer(id, amount);
+            toast.success("Transaction Successful");
+        }
+        catch (err: any) {
+            toast.error(err.message.slice(0, 100));
+        }
+    }
+    else {
+        toast.error("Please connect to metamask");
+    }
+}
 
 const getProductDetails = async (contract: any, id: string) => {
     if (contract) {
@@ -41,7 +57,10 @@ const getProductDetails = async (contract: any, id: string) => {
         }
         return productDetails;
     }
-    return {} as any;
+    else {
+        toast.error("Please connect to metamask");
+        return {} as Product;
+    }
 }
 
 function ProductDetails() {
@@ -73,14 +92,21 @@ function ProductDetails() {
                         <div className=' top-20 sticky'>
                             <img loading='lazy' className='hover:scale-105 cursor-pointer transition-all mx-auto w-80' src={product?.image} alt="" />
                             <div className=' my-8 flex items-center gap-4 justify-between'>
-                                <button
+                                {/* <button
                                     onClick={() => { }}
                                     className={`bg-[#fb641b] rounded w-full text-lg font-bold text-white py-3`}>
                                     <ShoppingCartIcon /> Add to cart
-                                </button>
+                                </button> */}
                                 <button
-                                    onClick={() => { }}
-                                    className={`w-full bg-[#fb641b] rounded text-lg font-bold py-3 text-white`}><ShoppingBagIcon /> Buy Now
+                                    disabled={product.status != "Sold to Retailer"}
+                                    onClick={() => {
+                                        if (product.status != "Sold to Retailer") {
+                                            toast.error("Product not available to buy");
+                                            return;
+                                        }
+                                        purchaseCustomer(contract, product.id, { value: ethers.parseEther((parseInt(product.price.toString()) * 0.01).toString()) });
+                                    }}
+                                    className={`w-full bg-[#fb641b] rounded text-lg font-bold py-3 text-white disabled:bg-neutral-300 disabled:cursor-not-allowed `}><ShoppingBagIcon className="text-md"/> Buy Now
                                 </button>
                             </div>
                         </div>
@@ -163,7 +189,6 @@ function ProductDetails() {
             : <div className='flex justify-center items-center h-screen'>
                 <p className='text-2xl font-bold'>Loading...</p>
             </div>
-
     )
 }
 

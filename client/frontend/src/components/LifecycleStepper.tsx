@@ -9,6 +9,7 @@ import StoreIcon from '@mui/icons-material/Store';
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
 import { StepIconProps } from '@mui/material/StepIcon';
 import { Product } from '@/types';
+import { CheckIcon } from '@heroicons/react/20/solid';
 
 const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
     [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -65,6 +66,7 @@ function ColorlibStepIcon(props: StepIconProps) {
         1: <FactoryIcon />,
         2: <WarehouseIcon />,
         3: <StoreIcon />,
+        4: <CheckIcon height={30} width={30} />,
     };
 
     return (
@@ -77,11 +79,11 @@ function ColorlibStepIcon(props: StepIconProps) {
 
 
 export default function CustomizedSteppers({ product }: { product: Product }) {
-    const steps = [product.manufacturerName, product.distributorName || "", product.retailerName || ""];
+    const steps = [product.manufacturerName, product.distributorName || "", product.retailerName || "", product.status == "Sold to Customer" ? "Sold" : ""];
     return (
         <Stack sx={{ width: '100%' }} spacing={2} className='justify-center'>
             <Stepper alternativeLabel activeStep={
-                product.retailerName ? 2 : product.distributorName ? 1 : 0
+                product.status === "Sold to Customer" ? 3 : product.retailerName ? 2 : product.distributorName ? 1 : 0
             } connector={<ColorlibConnector />}>
                 {steps.map((label) => (
                     <Step key={label}>
