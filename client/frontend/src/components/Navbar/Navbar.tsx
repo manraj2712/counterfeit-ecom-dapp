@@ -60,7 +60,9 @@ const Header = () => {
             </div>
             :
             <>
-              <button onClick={primarytoggle} className=' px-10 py-1 bg-white font-semibold rounded-sm text-blue-500'>
+              <button onClick={() => {
+                connectWallet();
+              }} className=' px-10 py-1 bg-white font-semibold rounded-sm text-blue-500'>
                 Login
               </button>
             </>

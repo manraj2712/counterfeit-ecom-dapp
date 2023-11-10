@@ -60,10 +60,12 @@ export default function StateContextProvider({ children }: { children: React.Rea
         );
         setState({ provider, signer, contract, account: (accounts as Array<string>)[0] });
       } else {
+        toast.error('🦄 Please install MetaMask!');
         console.log("Please install MetaMask!");
       }
     } catch (error) {
       console.log(error);
+      toast.error('Something went wrong!');
     }
   };
 
