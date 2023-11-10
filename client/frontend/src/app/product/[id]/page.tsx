@@ -155,7 +155,7 @@ function ProductDetails() {
                         </div>
                         {/* <!-- Heading container> */}
                         <div className="mb-10 mt-7 flex align-middle">
-                            <QRCode value={process.env.NEXT_PUBLIC_HOSTED_URL ? `https://${process.env.NEXT_PUBLIC_HOSTED_URL}/${product.id}` : `http://localhost:3000/${product.id}`} height={"10px"} width={"10px"} />
+                            <QRCode value={process.env.NEXT_PUBLIC_HOSTED_URL ? `https://${process.env.NEXT_PUBLIC_HOSTED_URL}/product/${product.id}` : `http://localhost:3000/product/${product.id}`} height={"10px"} width={"10px"} />
                             <LifeCycleStepper product={product} />
                         </div>
                         {/* <!-- offer continer> */}
