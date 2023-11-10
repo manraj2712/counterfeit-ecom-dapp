@@ -1,18 +1,13 @@
 import "./navbar.css"
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import AddCardIcon from '@mui/icons-material/AddCard';
-import RedeemIcon from '@mui/icons-material/Redeem';
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import Link from 'next/link';
 
-const Primarydropdown = ({ toggleprimary }: { toggleprimary: boolean }) => {
+const Primarydropdown = ({ setTogglePrimary }: { setTogglePrimary: (e: boolean) => void }) => {
     const nav = [
         {
             title: "My Profile",
             icon: <AccountCircleIcon />,
-            redirect: "/services"
+            redirect: "/profile"
         },
         // {
         //     title: "Flipkart plus zone",
@@ -46,7 +41,9 @@ const Primarydropdown = ({ toggleprimary }: { toggleprimary: boolean }) => {
                 nav.map((elem, index) => {
                     return (
                         <Link key={index} href={elem.redirect}>
-                            <div className=' p-4 border-b font-semibold hover:bg-slate-100  gap-4 text-primary flex items-center'>
+                            <div onClick={() => {
+                                setTogglePrimary(false)
+                            }} className='p-4 border-b font-semibold hover:bg-slate-100  gap-4 text-primary flex items-center'>
                                 <div>{elem.icon}</div>
                                 <h6 className=' text-[#212121]'>{elem.title}</h6>
                             </div>

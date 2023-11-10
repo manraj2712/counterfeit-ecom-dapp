@@ -66,7 +66,9 @@ const Header = () => {
             </>
 
         }
-        {toggleprimary && <Primarydropdown toggleprimary={toggleprimary} />}
+        {toggleprimary && <Primarydropdown setTogglePrimary={(e) => {
+          setToggleprimary(e)
+        }} />}
 
         {/* <span onClick={secondarytoggle} className=' relative  cursor-pointer'>More
           <span className=' px-1'>

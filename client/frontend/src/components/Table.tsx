@@ -143,13 +143,13 @@ function Table({ role }: { role: Role }) {
                         Here is a list of products you have..
                     </p>
                 </div>
-                <div className="mt-3 md:mt-0 cursor-pointer">
+                {role === Role.MANUFACTURER && <div className="mt-3 md:mt-0 cursor-pointer">
                     <p onClick={() => {
                         router.push("/add-product");
                     }} className="inline-block px-4 py-2 text-white duration-150 font-medium bg-yellow-400 hover:bg-blue-600 active:bg:bg-neutral-900 md:text-sm rounded-lg">
                         Add Product
                     </p>
-                </div>
+                </div>}
             </div>
             <div className="mt-12 shadow-sm border rounded-lg overflow-x-auto">
                 <table className="w-full table-auto text-sm text-left">

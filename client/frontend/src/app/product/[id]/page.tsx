@@ -31,10 +31,11 @@ const purchaseCustomer = async (contract: any, id: string, amount: { value: bigi
     }
 }
 
-const getProductDetails = async (contract: any, id: string) => {
+const getProductDetails = async (contract: any, id: string, onNotFound: () => void) => {
     if (contract) {
         const res = await contract.products(id);
         if (res.id === '') {
+            onNotFound();
             throw new Error("Product not found");
         }
         const product = await getProductDetailsFromDb(id);
@@ -67,11 +68,12 @@ function ProductDetails() {
     const { contract } = useContext(StateContext);
     const [loading, setLoading] = useState(false);
     const [product, setProduct] = useState<Product | null>(null);
+    const [productNotFound, setProductNotFound] = useState(false);
 
     const { id } = useParams();
     useEffect(() => {
         if (!id || !contract) return;
-        getProductDetails(contract, id as string).then((res) => {
+        getProductDetails(contract, id as string, () => { setProductNotFound(true) }).then((res) => {
             setProduct(res);
         }).catch((err) => {
             toast.error(err.message);
@@ -106,7 +108,7 @@ function ProductDetails() {
                                         }
                                         purchaseCustomer(contract, product.id, { value: ethers.parseEther((parseInt(product.price.toString()) * 0.01).toString()) });
                                     }}
-                                    className={`w-full bg-[#fb641b] rounded text-lg font-bold py-3 text-white disabled:bg-neutral-300 disabled:cursor-not-allowed `}><ShoppingBagIcon className="text-md"/> Buy Now
+                                    className={`w-full bg-[#fb641b] rounded text-lg font-bold py-3 text-white disabled:bg-neutral-300 disabled:cursor-not-allowed `}><ShoppingBagIcon className="text-md" /> Buy Now
                                 </button>
                             </div>
                         </div>
@@ -153,7 +155,7 @@ function ProductDetails() {
                         </div>
                         {/* <!-- Heading container> */}
                         <div className="mb-10 mt-7 flex align-middle">
-                            <QRCode value={`http://localhost:3000/${product.id}`} height={"10px"} width={"10px"} />
+                            <QRCode value={process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}/${product.id}` : `http://localhost:3000/${product.id}`} height={"10px"} width={"10px"} />
                             <LifeCycleStepper product={product} />
                         </div>
                         {/* <!-- offer continer> */}
@@ -186,7 +188,9 @@ function ProductDetails() {
                 </div>
                 <ProductsCarousel title="Related Products" />
             </div>
-            : <div className='flex justify-center items-center h-screen'>
+            : productNotFound ? <div className='flex justify-center items-center h-screen'>
+                <p className='text-2xl font-bold'>Product Not Found</p>
+            </div> : <div className='flex justify-center items-center h-screen'>
                 <p className='text-2xl font-bold'>Loading...</p>
             </div>
     )
